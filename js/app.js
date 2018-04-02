@@ -4,17 +4,13 @@
 
     const app  = {
         init: function() {
-
             app.basics = {};
             app.basics.amount = 8;
+            app.basics.run = 0;
+            app.basics.openCards = [];
+            app.basics.matchCounter = 0;
             app.prepareDom();
             app.provideCards();
-            // get Elements
-            // add Event listeners
-            // pull random set of 8 from data,
-            // createCards from these 8,
-            // shuffle Cards,
-            // append Cards to html
         },
         prepareDom: function() {
 
@@ -26,7 +22,42 @@
         },
         provideCards: function() {
             app.render(app.getIconData());
-            app.shuffleCards();
+            var cards = app.el.cardWrapper.querySelectorAll('li'); 
+            app.el.cardWrapper.innerHTML = '';
+            // modified from https://stackoverflow.com/questions/3199588/fastest-way-to-convert-javascript-nodelist-to-array
+            cards = app.shuffleCards([].slice.call(cards));
+
+            cards.forEach(function(card){
+                app.el.cardWrapper.appendChild(card);
+                card.addEventListener('click', function(e) {
+                    app.handleClick(e.target);
+                });
+            });
+        },
+        handleClick: function(card) {
+            var openCards = app.basics.openCards;
+            if (openCards.length === 1) {
+                if (openCards[0] === card) {
+                    card.className = 'card';
+                }
+                else if (openCards[0].dataset.matchIndex === card.dataset.matchIndex) {
+                    openCards[0].className = card.className = 'card match';
+
+                    if(++app.basics.matchCounter === app.basics.amount)
+                        app.handleWin();
+                } 
+                else {
+                    card.className = 'card open show';
+                    setTimeout(function() {
+                        openCards[0].className = card.className = 'card';
+                    }, 750);
+                }
+                app.basics.openCards = [];
+            }
+            else {
+                card.className = 'card open show';
+                openCards.push(card);
+            }
         },
         getIconData: function() {
 
@@ -38,6 +69,7 @@
             return newData;
         },
         getNewDataIndex: function() {
+            //TODO: prevent double selection
             let usedIndexes = JSON.parse(localStorage.getItem('usedIconDataIndexes')) || [];
             let newIndex = app.randomNumBetween(0, data.length);
 
@@ -55,7 +87,7 @@
         createCardSet: function(cardData, type) {
 
             let container = document.createElement('li');
-            container.className = 'card match';
+            container.className = 'card';
             container.dataset.matchIndex = cardData.shortLabel;
 
             if (type === 'icon') {
@@ -74,8 +106,17 @@
             }
             return container;
         },
-        shuffleCards: function() {
+        shuffleCards: function(array) {
+            var currentIndex = array.length, temporaryValue, randomIndex;
 
+            while (currentIndex !== 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex -= 1;
+                temporaryValue = array[currentIndex];
+                array[currentIndex] = array[randomIndex];
+                array[randomIndex] = temporaryValue;
+            }
+            return array;
         },
         randomNumBetween: function(max, min) {
             if (typeof max === 'undefined'){
