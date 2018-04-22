@@ -1,20 +1,16 @@
 # Memory Game Project
 
-## Table of Contents
-
-* [Instructions](#instructions)
-* [Contributing](#contributing)
-
 ## Instructions
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+Hi all,
+welcome to the fontawesome memory game!
 
-To get started, open `js/app.js` and start building out the app's functionality
+In this puzzle game you can match youre favourite font awesome icons with the class-alternatives you need to write in your html or js to apply the icons. If you play this for a few rounds you will get a good overview over what kind of icons exists and how they are named. Have fun playing!
 
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
+How to play:
+Open a card by clicking on it. You will either see a fontawesome image, or its counter part, the fontaweseme class. You can click on another card to try to find your cards counterpart. Try to get all the matches to beat the game! Each iteration you will be presented a randomly pulled icon set from the font awesome library. Just to make sure they will be mixed randomly aswell so you can't cheat ;).
 
-## Contributing
+The game displays a star rating (from 1-3) that reflects the youre performance. At the beginning of a game, it display 3 stars. After some 35 moves, it will change to a 2 star rating. After a few more moves, it will change a 1 star rating.
+You should try to finish the puzzle as quick as possible to get a good rating. Also as soon as you start opening a card, a timer will keep track of how long you actualy took to beat the game, and also how many moves it took you.
 
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
-
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+Have fun playing.
