@@ -7,6 +7,7 @@
     <link rel="stylesheet prefetch" href="css/fontawesome-all.min.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link rel="stylesheet" href="css/app.css">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <script defer src="js/icons-data.js"></script>
     <script defer src="js/app.js"></script>
@@ -16,20 +17,26 @@
     <div class="container">
         <header>
             <h1>Font Awesome Memory</h1>
+            <p>Find all the right logo-class pairs.</p>
         </header>
 
         <section class="score-panel">
+            Rating:
         	<ul class="stars">
         		<li><i class="fa fa-star"></i></li>
         		<li><i class="fa fa-star"></i></li>
         		<li><i class="fa fa-star"></i></li>
         	</ul>
 
-        	<span class="moves">3</span> Moves
+            <span id="moveCounter" class="moves">0</span> Moves
 
-            <div class="restart">
-        		<i class="fa fa-repeat"></i>
-        	</div>
+            <div>
+                Time passed:
+                <span id="timer"></span>
+                <span id="restart">
+                    <i class="fa fa-repeat"></i>
+                </span>
+            </div>
         </section>
 
         <ul id="cardWrapper" class="deck">

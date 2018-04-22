@@ -9,6 +9,8 @@
             app.basics.run = 0;
             app.basics.openCards = [];
             app.basics.matchCounter = 0;
+            app.basics.moveCounter = 0;
+            app.basics.timer = 0;
             app.prepareDom();
             app.provideCards();
         },
@@ -19,10 +21,14 @@
             app.el.cardWrapper = document.getElementById('cardWrapper');
 
             // set up event listeners
+
+            document.getElementById('restart').addEventListener('click', function() {
+                app.resetPuzzle();
+            });
         },
         provideCards: function() {
-            app.render(app.getIconData());
-            var cards = app.el.cardWrapper.querySelectorAll('li'); 
+            app.renderCards(app.getIconData());
+            var cards = app.el.cardWrapper.querySelectorAll('li');
             app.el.cardWrapper.innerHTML = '';
             // modified from https://stackoverflow.com/questions/3199588/fastest-way-to-convert-javascript-nodelist-to-array
             cards = app.shuffleCards([].slice.call(cards));
@@ -35,6 +41,11 @@
             });
         },
         handleClick: function(card) {
+            if (app.basics.moveCounter === 0) {
+                app.startTimer();
+            }
+            app.updateMoveCounter();
+
             var openCards = app.basics.openCards;
             if (openCards.length === 1) {
                 if (openCards[0] === card) {
@@ -43,9 +54,9 @@
                 else if (openCards[0].dataset.matchIndex === card.dataset.matchIndex) {
                     openCards[0].className = card.className = 'card match';
 
-                    if(++app.basics.matchCounter === app.basics.amount)
+                    if (++app.basics.matchCounter === app.basics.amount)
                         app.handleWin();
-                } 
+                }
                 else {
                     card.className = 'card open show';
                     setTimeout(function() {
@@ -78,7 +89,7 @@
             else
                 return newIndex;
         },
-        render: function(cardPoolData) {
+        renderCards: function(cardPoolData) {
             for (let i = 0; i < cardPoolData.length; i++) {
                 app.el.cardWrapper.appendChild(app.createCardSet(cardPoolData[i], 'icon'));
                 app.el.cardWrapper.appendChild(app.createCardSet(cardPoolData[i], 'text'));
@@ -100,7 +111,6 @@
                     <div class="iconCode">
                         <div class="unicode">${cardData.unicode}</div>
                         <div class="shortLabel">fa-${cardData.shortLabel}</div>
-                        <div class="label">${cardData.label}</div>
                     </div>
                     `;
             }
@@ -127,32 +137,52 @@
                 min = 0;
             }
             return Math.floor( Math.random() * (max - min) + min);
+        },
+        updateMoveCounter: function() {
+            app.basics.moveCounter++;
+            document.getElementById('moveCounter').textContent = app.basics.moveCounter;
+
+            if (app.basics.moveCounter === 35 || app.basics.moveCounter === 50) {
+                var stars = document.querySelector('.stars');
+                stars.removeChild(stars.lastElementChild);
+            }
+        },
+        startTimer: function() {
+            app.basics.timerInterval = setInterval(app.updateTimer, 1000);
+        },
+        updateTimer: function() {
+            app.basics.timer++;
+            if (app.basics.timer > 3599) {
+                alert("You took to long to figure out the puzzle, please try again with a new set.");
+                app.resetPuzzle();
+            } else {
+                app.renderTimer();
+            }
+        },
+        stopTimer: function() {
+            clearInterval(app.basics.timerInterval);
+        },
+        renderTimer: function() {
+            document.getElementById('timer').innerText = app.getTime();
+        },
+        getTime: function() {
+            return (app.basics.timer / 60 < 1 ? 0 : Math.floor(app.basics.timer / 60)) + ':' + app.basics.timer % 60;
+        },
+        resetPuzzle: function() {
+            window.location.reload();
+        },
+        handleWin: function() {
+
+            app.stopTimer();
+            var starRating = document.querySelectorAll('.stars li').length;
+
+            setTimeout(function() {
+                if (confirm("Congratulations, you won! Your star rating was " + starRating + " out of 3 Stars. You took " + app.getTime() + " to finish the puzzle. Do you want to play again?")) {
+                    app.resetPuzzle();
+                }
+            }, 1000);
         }
     };
-
-
-    /*
-    * Display the cards on the page
-    *   - shuffle the list of cards using the provided 'shuffle' method below
-    *   - loop through each card and create its HTML
-    *   - add each card's HTML to the page
-    */
-
-    // Shuffle function from http://stackoverflow.com/a/2450976
-    // function shuffle(array) {
-    //     var currentIndex = array.length, temporaryValue, randomIndex;
-
-    //     while (currentIndex !== 0) {
-    //         randomIndex = Math.floor(Math.random() * currentIndex);
-    //         currentIndex -= 1;
-    //         temporaryValue = array[currentIndex];
-    //         array[currentIndex] = array[randomIndex];
-    //         array[randomIndex] = temporaryValue;
-    //     }
-
-    //     return array;
-    // }
-
 
     /*
     * set up the event listener for a card. If a card is clicked:
@@ -164,6 +194,7 @@
     *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
     *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
     */
+
     app.init();
 
     return app;
