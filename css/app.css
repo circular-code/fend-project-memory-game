@@ -163,14 +163,14 @@ div.iconCode {
 
 @media screen and (max-width: 470px) {
     .deck {
-        width: 215px;
-        min-height: 215px;
+        width: 100vw;
+        min-height: 100vw;
         padding: 10px;
     }
 
     .deck .card {
-        height: 40px;
-        width: 40px;
+        height: 75px;
+        width: 75px;
     }
 
     .deck .card.open > *:not(i) {
