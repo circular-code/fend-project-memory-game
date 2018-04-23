@@ -43,8 +43,8 @@
 
             var openCards = app.basics.openCards;
 
-            // if you click on the same card again
-            if (openCards[0] === card)
+            // if two cards are already open or if you click on the same card again
+            if (app.basics.openCards.length > 1 || openCards[0] === card)
                 return;
 
             // starts the timer if the first move is made
@@ -70,9 +70,9 @@
                     card.className = 'card open show';
                     setTimeout(function() {
                         openCards[0].className = card.className = 'card';
+                        app.basics.openCards = [];
                     }, 1500);
                 }
-                app.basics.openCards = [];
             }
             // first card is simply shown
             else {
