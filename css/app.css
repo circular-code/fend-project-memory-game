@@ -78,7 +78,7 @@ h1 {
 .deck .card.open > * {
     transform: rotateY(180deg);
     opacity: 1;
-    transition: opacity 1.5s ease-in-out;
+    transition: opacity 1s ease-in-out;
 }
 
 .deck .card > * {
