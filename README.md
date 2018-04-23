@@ -16,3 +16,6 @@ The game displays a star rating (from 1-3) that reflects your performance. At th
 You should try to finish the puzzle as quick as possible to get a good rating. Also as soon as you start opening a card, a timer will keep track of how long you actualy took to beat the game, and also how many moves it took you. If you struggle with the current icons, you may reset the game by klicking the reload button to the top right.
 
 Have fun playing.
+
+## Dependencies
+This game is semi dependent on the google fonts api. Semi dependant because the app still works with a fallback sans-serif font, if the google fonts api can not be reached.
