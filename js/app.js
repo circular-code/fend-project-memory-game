@@ -20,8 +20,7 @@
             app.el = {};
             app.el.cardWrapper = document.getElementById('cardWrapper');
 
-            // set up event listeners
-
+            // set up event listener
             document.getElementById('restart').addEventListener('click', function() {
                 app.resetPuzzle();
             });
@@ -41,23 +40,33 @@
             });
         },
         handleClick: function(card) {
-            if (app.basics.moveCounter === 0) {
-                app.startTimer();
-            }
-            app.updateMoveCounter();
 
             var openCards = app.basics.openCards;
+
+            // if you click on the same card again
+            if (openCards[0] === card)
+                return;
+
+            // starts the timer if the first move is made
+            if (app.basics.moveCounter === 0)
+                app.startTimer();
+
+            app.updateMoveCounter();
+
+            // if one card has already been selected
             if (openCards.length === 1) {
-                if (openCards[0] === card) {
-                    card.className = 'card';
-                }
-                else if (openCards[0].dataset.matchIndex === card.dataset.matchIndex) {
+
+                // if the old and new card match
+                if (openCards[0].dataset.matchIndex === card.dataset.matchIndex) {
                     openCards[0].className = card.className = 'card match';
 
+                    // all cards have been matched
                     if (++app.basics.matchCounter === app.basics.amount)
                         app.handleWin();
                 }
+                // if the old and new card dont match
                 else {
+                    //show new card, then hide both
                     card.className = 'card open show';
                     setTimeout(function() {
                         openCards[0].className = card.className = 'card';
@@ -65,6 +74,7 @@
                 }
                 app.basics.openCards = [];
             }
+            // first card is simply shown
             else {
                 card.className = 'card open show';
                 openCards.push(card);
@@ -80,7 +90,6 @@
             return newData;
         },
         getNewDataIndex: function() {
-            //TODO: prevent double selection
             let usedIndexes = JSON.parse(localStorage.getItem('usedIconDataIndexes')) || [];
             let newIndex = app.randomNumBetween(0, data.length);
 
