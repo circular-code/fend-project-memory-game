@@ -55,12 +55,15 @@
 
             // if one card has already been selected
             if (openCards.length === 1) {
+                openCards.push(card);
 
                 // if the old and new card match
                 if (openCards[0].dataset.matchIndex === card.dataset.matchIndex) {
                     openCards[0].className = card.className = 'card match';
 
-                    // all cards have been matched
+                    app.basics.openCards = [];
+
+                    // if all cards have been matched
                     if (++app.basics.matchCounter === app.basics.amount)
                         app.handleWin();
                 }
@@ -76,8 +79,8 @@
             }
             // first card is simply shown
             else {
-                card.className = 'card open show';
                 openCards.push(card);
+                card.className = 'card open show';
             }
         },
         getIconData: function() {
