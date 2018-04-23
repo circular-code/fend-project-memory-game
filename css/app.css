@@ -19,6 +19,7 @@ body {
 body {
     background: #ffffff url('../img/geometry2.png'); /* Background pattern from Subtle Patterns */
     font-family: 'Coda', cursive;
+    padding: 10px;
 }
 
 .container {
@@ -64,7 +65,7 @@ h1 {
     align-items: center;
     box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
     transform: rotateY(0deg);
-    padding: 20px;
+    text-align: center;
 }
 
 .deck .card.open {
@@ -179,4 +180,12 @@ div.iconCode {
     .deck .card.open > i {
         font-size: 18px;
     }
+    
+    .deck .card.match {
+        font-size: 16px;
+    }
+    
+    .match .iconCode {
+    font-size: 6px;
+}
 }
