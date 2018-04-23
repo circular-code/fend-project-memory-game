@@ -61,7 +61,7 @@
                     card.className = 'card open show';
                     setTimeout(function() {
                         openCards[0].className = card.className = 'card';
-                    }, 750);
+                    }, 1500);
                 }
                 app.basics.openCards = [];
             }
