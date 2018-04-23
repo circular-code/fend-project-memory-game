@@ -85,6 +85,10 @@ h1 {
     opacity: 0;
 }
 
+.deck .card.match > * {
+    opacity: 1;
+}
+
 .deck .card.open > *:not(i) {
     font-size: 12px;
 }
